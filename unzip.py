@@ -52,7 +52,7 @@ def batch_extract(directory):
 
 
 # 指定需要解压的文件夹路径
-directory = r'C:\Users\QAQ\Desktop\助教\助教\统计学习\test'
+directory = r'你的路径'
 
 batch_extract(directory)
 
