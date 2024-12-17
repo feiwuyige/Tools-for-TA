@@ -4,16 +4,15 @@ function Copy-File {
     )
 
     # 固定的源文件夹路径
-    $sourceFolder = "your_path"   # 请替换为源文件夹路径
-
+    $sourceFolder = "C:\Users\QAQ\Desktop\TA\TA\STAL\homework"   # 请替换为源文件夹路径
+    # $sourceFolder = "C:\Users\QAQ\Desktop\test"
     # 固定的目标文件夹路径
-    $destinationFolder = "your_path"  # 请替换为目标文件夹路径
+    $destinationFolder = "C:\Users\QAQ\Desktop\testDestinate"  # 请替换为目标文件夹路径
 
     # 遍历源文件夹中的所有子文件夹（包括多层深的子文件夹）
     # Get-ChildItem -Recurse 获取当前目录下的所有文件和文件夹 
     # Where-Object 用于过滤，只选择文件名为fileName的文件
     $sourceFiles = Get-ChildItem -Path $sourceFolder -Recurse | Where-Object { $_.Name -eq $fileName }
-
     # 如果找到匹配的文件，进行复制
     foreach ($sourceFile in $sourceFiles) {
         # 获取文件的第一层子文件夹名称
@@ -30,8 +29,12 @@ function Copy-File {
 
         # 将文件复制到目标文件夹
         $destFile = Join-Path -Path $targetFolder -ChildPath $fileName
-        Copy-Item $sourceFile.FullName -Destination $destFile -Force
-        <# Write-Host "from $($sourceFile.FullName) to $destFile" #>
+        if (-not (Test-Path $destFile)) {
+            Copy-Item $sourceFile.FullName -Destination $destFile 
+        }
+        else{
+            Write-Host "Uncopy: $($sourceFile.DirectoryName)\$sourceFile"
+        }
     }
 }
 
