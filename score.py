@@ -18,7 +18,9 @@ for student_folder in os.listdir(main_folder):
         continue
     # print(student_id)
     student_path = os.path.join(main_folder, student_folder)
+    print(student_id)
     for file in os.listdir(student_path):
+        # 回归
         if "regression" in file:
             student_file = os.path.join(student_path, file)
             if file.endswith('.excel'):
@@ -30,5 +32,43 @@ for student_folder in os.listdir(main_folder):
             row_index = student[student['id'] == student_id].index
             if not row_index.empty:
                 student.loc[row_index, 'regression'] = score
+        # svm
+        if "svm" in file:
+            student_file = os.path.join(student_path, file)
+            if file.endswith('.excel'):
+                student_submission = pd.read_excel(student_file)
+            elif file.endswith(".csv"):
+                student_submission = pd.read_csv(student_file)
+            score = np.sum(np.abs(ground_truth_classification['ans'] - student_submission['y']))
+            # 得到对应行
+            row_index = student[student['id'] == student_id].index
+            if not row_index.empty:
+                student.loc[row_index, 'svm'] = score
+
+        # mlp
+        if "mlp" in file:
+            student_file = os.path.join(student_path, file)
+            if file.endswith('.excel'):
+                student_submission = pd.read_excel(student_file)
+            elif file.endswith(".csv"):
+                student_submission = pd.read_csv(student_file)
+            score = np.sum(np.abs(ground_truth_classification['ans'] - student_submission['y']))
+            # 得到对应行
+            row_index = student[student['id'] == student_id].index
+            if not row_index.empty:
+                student.loc[row_index, 'mlp'] = score
+
+        # adaboost
+        if "adaboost" in file:
+            student_file = os.path.join(student_path, file)
+            if file.endswith('.excel'):
+                student_submission = pd.read_excel(student_file)
+            elif file.endswith(".csv"):
+                student_submission = pd.read_csv(student_file)
+            score = np.sum(np.abs(ground_truth_classification['ans'] - student_submission['y']))
+            # 得到对应行
+            row_index = student[student['id'] == student_id].index
+            if not row_index.empty:
+                student.loc[row_index, 'adaboost'] = score
 student.to_excel(r'C:\Users\QAQ\Desktop\project_test.xlsx',index=False)
             
